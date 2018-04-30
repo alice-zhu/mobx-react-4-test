@@ -2,11 +2,15 @@ import { observable, action, runInAction } from "mobx"
 import { persist,create } from 'mobx-persist'
 
 class AuthStore{
-  @persist @observable token = 'fff'
+  @persist @observable token = ''
 
   @action setToken(newToken){
     console.log("setToken",newToken);
     this.token = newToken;
+  }
+
+  @action clearToken(){
+    localStorage.removeItem('auth')
   }
 
   hasToken = ()=>{
@@ -16,11 +20,8 @@ class AuthStore{
 }
 
 const hydrate = create({
-  storage: localStorage, 
-  jsonify: false
 })
-console.log(create)
-console.log(create({}))
 const store = new AuthStore()
+console.log(store)
 export default store
-export const authHydrate = hydrate('token', store)
+export const authHydrate = hydrate('auth', store)
